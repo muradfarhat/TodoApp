@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="_20dp">20dp</dimen>
-    <dimen name="_25sp">25sp</dimen>
-    <dimen name="page_margin_top">86dp</dimen>
+    <dimen name="font_size_25sp">25sp</dimen>
+    <dimen name="page_margin_top">80dp</dimen>
+    <dimen name="user_image_dimens">49dp</dimen>
+    <dimen name="user_image_inside_padding">3dp</dimen>
+    <dimen name="group_dimens">15dp</dimen>
+    <dimen name="group_image_margin_top">-8dp</dimen>
+    <dimen name="group_image_margin_start">-12dp</dimen>
+    <dimen name="page_tittle_margin_end">30dp</dimen>
+    <dimen name="_30dp">30dp</dimen>
+    <dimen name="_7dp">7dp</dimen>
+    <dimen name="_12dp">12dp</dimen>
+    <dimen name="_19dp">19dp</dimen>
+    <dimen name="_25dp">25dp</dimen>
+    <dimen name="font_size_16sp">16sp</dimen>
 </resources>
