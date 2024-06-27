@@ -2,7 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Fragments.MainPageFragment">
+    tools:context="Fragments.MainPageFragment"
+    android:background="@color/black"
+    android:paddingHorizontal="@dimen/_20dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/page_margin_top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="@string/tasks"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="@dimen/_25sp"/>
+
+        
+
+    </RelativeLayout>
 
 </FrameLayout>
