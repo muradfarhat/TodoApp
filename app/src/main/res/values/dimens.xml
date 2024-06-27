@@ -11,8 +11,16 @@
     <dimen name="page_tittle_margin_end">30dp</dimen>
     <dimen name="_30dp">30dp</dimen>
     <dimen name="_7dp">7dp</dimen>
+    <dimen name="_8dp">8dp</dimen>
     <dimen name="_12dp">12dp</dimen>
     <dimen name="_19dp">19dp</dimen>
     <dimen name="_25dp">25dp</dimen>
     <dimen name="font_size_16sp">16sp</dimen>
+    <dimen name="font_size_22sp">22sp</dimen>
+    <dimen name="_0_5dp">0.5dp</dimen>
+    <dimen name="_16dp">16dp</dimen>
+    <dimen name="_15dp">15dp</dimen>
+    <dimen name="font_size_18sp">18sp</dimen>
+    <dimen name="_10dp">10dp</dimen>
+    <dimen name="font_size_14sp">14sp</dimen>
 </resources>

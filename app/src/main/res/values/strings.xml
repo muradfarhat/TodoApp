@@ -4,4 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tasks">You have got 5 tasks today to complete</string>
     <string name="search_hint_text">Search Task Here</string>
+    <string name="progress">Progress</string>
+    <string name="see_all">See All</string>
+    <string name="daily_task">Daily Task</string>
+    <string name="_2_3_task">2/3 Task</string>
+    <string name="you_are_almost_done_go_ahead">You are almost done go ahead</string>
+    <string name="ratio">66%</string>
 </resources>

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="Fragments.MainPageFragment"
     android:background="@color/black">
 
@@ -11,6 +12,7 @@
         android:layout_marginTop="@dimen/page_margin_top"
         android:layout_marginHorizontal="@dimen/_20dp">
 
+<!--        Top Part-->
         <RelativeLayout
             android:id="@+id/pageTopPart"
             android:layout_width="match_parent"
@@ -50,10 +52,12 @@
                 android:layout_marginTop="@dimen/group_image_margin_top"
                 android:layout_marginStart="@dimen/group_image_margin_start"/>
 
+
         </RelativeLayout>
 
 <!--        Search View-->
         <LinearLayout
+            android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -84,6 +88,101 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="@dimen/_30dp"
+            android:layout_below="@id/searchView"
+            android:text="@string/progress"
+            android:textSize="@dimen/font_size_22sp"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/see_all"
+            android:textColor="@color/color_BA83DE"
+            android:layout_below="@id/searchView"
+            android:layout_alignTop="@+id/progress"
+            android:layout_alignBottom="@+id/progress"
+            android:gravity="center"
+            android:textSize="@dimen/font_size_16sp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="139dp"
+            android:layout_below="@+id/progress"
+            android:layout_marginTop="@dimen/_20dp"
+            app:cardCornerRadius="@dimen/_8dp"
+            app:cardElevation="@dimen/_0_5dp"
+            app:cardBackgroundColor="@color/color_181818">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/_16dp"
+                android:paddingVertical="@dimen/_15dp">
+
+                <TextView
+                    android:id="@+id/dailyTask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/daily_task"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/inter_regular"
+                    android:textSize="@dimen/font_size_18sp"
+                    android:layout_alignParentStart="true"/>
+                
+                <TextView
+                    android:id="@+id/numOfDoneTasks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/_2_3_task"
+                    android:fontFamily="@font/inter_regular"
+                    android:textSize="@dimen/font_size_16sp"
+                    android:textColor="@color/white_80"
+                    android:layout_below="@+id/dailyTask"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:layout_alignParentStart="true"/>
+
+                <RelativeLayout
+                    android:id="@+id/ratioText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:layout_below="@+id/numOfDoneTasks">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/you_are_almost_done_go_ahead"
+                        android:textColor="@color/white_80"
+                        android:fontFamily="@font/inter_regular"
+                        android:textSize="@dimen/font_size_14sp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"/>
+
+                    <TextView
+                        android:id="@+id/ratio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ratio"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_18sp"
+                        android:fontFamily="@font/inter_regular"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
