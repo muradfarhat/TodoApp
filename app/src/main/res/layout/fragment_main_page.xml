@@ -6,184 +6,217 @@
     tools:context="Fragments.MainPageFragment"
     android:background="@color/black">
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/page_margin_top"
-        android:layout_marginHorizontal="@dimen/_20dp">
+        android:layout_height="match_parent"
+        >
 
-<!--        Top Part-->
         <RelativeLayout
-            android:id="@+id/pageTopPart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/page_margin_top"
+            android:layout_marginHorizontal="@dimen/_20dp">
+
+            <!--        Top Part-->
+            <RelativeLayout
+                android:id="@+id/pageTopPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/mainPageTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@string/tasks"
+                    android:fontFamily="@font/roboto_bold"
+                    android:layout_alignParentStart="true"
+                    android:textSize="@dimen/font_size_25sp"
+                    android:layout_toStartOf="@+id/userImage"
+                    android:layout_marginEnd="@dimen/page_tittle_margin_end"
+                    android:layout_centerVertical="true"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+
+                <ImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="@dimen/user_image_dimens"
+                    android:layout_height="@dimen/user_image_dimens"
+                    android:src="@drawable/user_image"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/user_image_decoration"
+                    android:padding="@dimen/user_image_inside_padding"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:layout_width="@dimen/group_dimens"
+                    android:layout_height="@dimen/group_dimens"
+                    android:src="@drawable/group_29"
+                    android:layout_below="@+id/userImage"
+                    android:layout_toEndOf="@+id/userImage"
+                    android:layout_marginTop="@dimen/group_image_margin_top"
+                    android:layout_marginStart="@dimen/group_image_margin_start"/>
+            </RelativeLayout>
+
+            <!--        Search View-->
+            <LinearLayout
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/pageTopPart"
+                android:layout_marginTop="@dimen/_30dp"
+                android:background="@drawable/search_view_decoration"
+                android:paddingHorizontal="@dimen/_7dp"
+                android:paddingVertical="@dimen/_12dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/search"
+                    android:layout_gravity="center"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="@dimen/_20dp"
+                    android:textColorHint="@color/white"
+                    android:hint="@string/search_hint_text"
+                    android:fontFamily="@font/inter_regular"
+                    android:textSize="@dimen/font_size_16sp"
+                    android:background="@android:color/transparent"
+                    android:singleLine="true"/>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/mainPageTitle"
+                android:id="@+id/progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="@string/tasks"
-                android:fontFamily="@font/roboto_bold"
-                android:layout_alignParentStart="true"
-                android:textSize="@dimen/font_size_25sp"
-                android:layout_toStartOf="@+id/userImage"
-                android:layout_marginEnd="@dimen/page_tittle_margin_end"
-                android:layout_centerVertical="true"
-                android:maxLines="2"
-                android:ellipsize="end"/>
+                android:layout_below="@id/searchView"
+                android:text="@string/progress"
+                style="@style/PageSectionsTextStyle"/>
 
-            <ImageView
-                android:id="@+id/userImage"
-                android:layout_width="@dimen/user_image_dimens"
-                android:layout_height="@dimen/user_image_dimens"
-                android:src="@drawable/user_image"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/user_image_decoration"
-                android:padding="@dimen/user_image_inside_padding"
-                android:layout_centerVertical="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/searchView"
+                android:layout_alignTop="@+id/progress"
+                android:layout_alignBottom="@+id/progress"
+                style="@style/SeeAllTextStyle"/>
 
-            <ImageView
-                android:layout_width="@dimen/group_dimens"
-                android:layout_height="@dimen/group_dimens"
-                android:src="@drawable/group_29"
-                android:layout_below="@+id/userImage"
-                android:layout_toEndOf="@+id/userImage"
-                android:layout_marginTop="@dimen/group_image_margin_top"
-                android:layout_marginStart="@dimen/group_image_margin_start"/>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dailyTasksCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/progress"
+                android:layout_marginTop="@dimen/_20dp"
+                app:cardCornerRadius="@dimen/_8dp"
+                app:cardElevation="@dimen/_0_5dp"
+                app:cardBackgroundColor="@color/color_181818">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_16dp"
+                    android:paddingVertical="@dimen/_15dp">
+
+                    <TextView
+                        android:id="@+id/dailyTask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/daily_task"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/inter_regular"
+                        android:textSize="@dimen/font_size_18sp"
+                        android:layout_alignParentStart="true"/>
+
+                    <TextView
+                        android:id="@+id/numOfDoneTasks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_2_3_task"
+                        android:fontFamily="@font/inter_regular"
+                        android:textSize="@dimen/font_size_16sp"
+                        android:textColor="@color/white_80"
+                        android:layout_below="@+id/dailyTask"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_alignParentStart="true"/>
+
+                    <RelativeLayout
+                        android:id="@+id/ratioText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_below="@+id/numOfDoneTasks">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/you_are_almost_done_go_ahead"
+                            android:textColor="@color/white_80"
+                            android:fontFamily="@font/inter_regular"
+                            android:textSize="@dimen/font_size_14sp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/ratio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ratio"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_size_18sp"
+                            android:fontFamily="@font/inter_regular"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                    <ProgressBar
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_18dp"
+                        android:layout_below="@+id/ratioText"
+                        android:layout_marginTop="@dimen/_10dp"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:max="100"
+                        android:progress="66"
+                        android:background="@drawable/progress_bar"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/TodayTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/PageSectionsTextStyle"
+                android:text="@string/today_s_task"
+                android:layout_below="@+id/dailyTasksCard"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dailyTasksCard"
+                android:layout_alignTop="@+id/TodayTask"
+                android:layout_alignBottom="@+id/TodayTask"
+                style="@style/SeeAllTextStyle"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dailyTasksRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/TodayTask"
+                android:layout_marginTop="@dimen/_20dp">
+
+                
+
+            </androidx.recyclerview.widget.RecyclerView>
 
         </RelativeLayout>
 
-<!--        Search View-->
-        <LinearLayout
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/pageTopPart"
-            android:layout_marginTop="@dimen/_30dp"
-            android:background="@drawable/search_view_decoration"
-            android:paddingHorizontal="@dimen/_7dp"
-            android:paddingVertical="@dimen/_12dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/search"
-                android:layout_gravity="center"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:layout_marginStart="@dimen/_20dp"
-                android:textColorHint="@color/white"
-                android:hint="@string/search_hint_text"
-                android:fontFamily="@font/inter_regular"
-                android:textSize="@dimen/font_size_16sp"
-                android:background="@android:color/transparent"
-                android:singleLine="true"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:fontFamily="@font/roboto_regular"
-            android:layout_marginTop="@dimen/_30dp"
-            android:layout_below="@id/searchView"
-            android:text="@string/progress"
-            android:textSize="@dimen/font_size_22sp"
-            android:layout_alignParentStart="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@string/see_all"
-            android:textColor="@color/color_BA83DE"
-            android:layout_below="@id/searchView"
-            android:layout_alignTop="@+id/progress"
-            android:layout_alignBottom="@+id/progress"
-            android:gravity="center"
-            android:textSize="@dimen/font_size_16sp"
-            android:clickable="true"
-            android:focusable="true"/>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="139dp"
-            android:layout_below="@+id/progress"
-            android:layout_marginTop="@dimen/_20dp"
-            app:cardCornerRadius="@dimen/_8dp"
-            app:cardElevation="@dimen/_0_5dp"
-            app:cardBackgroundColor="@color/color_181818">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/_16dp"
-                android:paddingVertical="@dimen/_15dp">
-
-                <TextView
-                    android:id="@+id/dailyTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/daily_task"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/inter_regular"
-                    android:textSize="@dimen/font_size_18sp"
-                    android:layout_alignParentStart="true"/>
-                
-                <TextView
-                    android:id="@+id/numOfDoneTasks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_2_3_task"
-                    android:fontFamily="@font/inter_regular"
-                    android:textSize="@dimen/font_size_16sp"
-                    android:textColor="@color/white_80"
-                    android:layout_below="@+id/dailyTask"
-                    android:layout_marginTop="@dimen/_10dp"
-                    android:layout_alignParentStart="true"/>
-
-                <RelativeLayout
-                    android:id="@+id/ratioText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10dp"
-                    android:layout_below="@+id/numOfDoneTasks">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/you_are_almost_done_go_ahead"
-                        android:textColor="@color/white_80"
-                        android:fontFamily="@font/inter_regular"
-                        android:textSize="@dimen/font_size_14sp"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"/>
-
-                    <TextView
-                        android:id="@+id/ratio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ratio"
-                        android:layout_alignParentEnd="true"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_size_18sp"
-                        android:fontFamily="@font/inter_regular"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>
