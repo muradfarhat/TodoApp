@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/page_margin_top"
-            android:layout_marginHorizontal="@dimen/_20dp">
+            android:layout_marginHorizontal="@dimen/_15dp">
 
             <!--        Top Part-->
             <RelativeLayout
@@ -142,14 +142,14 @@
                         android:textSize="@dimen/font_size_16sp"
                         android:textColor="@color/white_80"
                         android:layout_below="@+id/dailyTask"
-                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_5dp"
                         android:layout_alignParentStart="true"/>
 
                     <RelativeLayout
                         android:id="@+id/ratioText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_5dp"
                         android:layout_below="@+id/numOfDoneTasks">
 
                         <TextView
@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_18dp"
                         android:layout_below="@+id/ratioText"
-                        android:layout_marginTop="@dimen/_10dp"
+                        android:layout_marginTop="@dimen/_5dp"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                         android:max="100"
                         android:progress="66"
@@ -204,19 +204,55 @@
                 android:layout_alignBottom="@+id/TodayTask"
                 style="@style/SeeAllTextStyle"/>
 
+<!--            Today's Tasks Recycler View-->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dailyTasksRecyclerView"
+                android:id="@+id/todayTasksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="184dp"
                 android:layout_below="@+id/TodayTask"
-                android:layout_marginTop="@dimen/_20dp">
+                tools:itemCount="2"
+                android:layout_marginTop="@dimen/_20dp"/>
 
-                
+            <TextView
+                android:id="@+id/allTasks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/PageSectionsTextStyle"
+                android:text="@string/all_tasks"
+                android:layout_below="@+id/todayTasksRecyclerView"/>
 
-            </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/todayTasksRecyclerView"
+                android:layout_alignTop="@+id/allTasks"
+                android:layout_alignBottom="@+id/allTasks"
+                style="@style/SeeAllTextStyle"/>
+
+<!--            All Tasks Recycler View-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/allTasksRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="275dp"
+                android:layout_below="@+id/allTasks"
+                tools:itemCount="3"
+                android:layout_marginTop="@dimen/_20dp"/>
 
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="@dimen/_25dp"
+        android:layout_marginBottom="@dimen/_30dp"
+        android:src="@drawable/baseline_add_24"
+        android:contentDescription="@string/add_task"
+        android:clickable="true"
+        android:focusable="true"
+        android:backgroundTint="@color/color_DE83B0"/>
 
 </FrameLayout>

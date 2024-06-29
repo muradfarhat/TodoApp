@@ -15,7 +15,7 @@
         <item name="android:text">@string/see_all</item>
         <item name="android:textColor">@color/color_BA83DE</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/font_size_16sp</item>
+        <item name="android:textSize">@dimen/font_size_14sp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>

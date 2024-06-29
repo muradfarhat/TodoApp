@@ -24,4 +24,7 @@
     <dimen name="_10dp">10dp</dimen>
     <dimen name="font_size_14sp">14sp</dimen>
     <dimen name="_18dp">18dp</dimen>
+    <dimen name="_5dp">5dp</dimen>
+    <dimen name="recycler_card_height">90dp</dimen>
+    <dimen name="_100dp">100dp</dimen>
 </resources>

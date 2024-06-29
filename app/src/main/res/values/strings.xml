@@ -11,4 +11,9 @@
     <string name="you_are_almost_done_go_ahead">You are almost done go ahead</string>
     <string name="ratio">66%</string>
     <string name="today_s_task">Today’s Task</string>
+    <string name="all_tasks">All Tasks</string>
+    <string name="add_task">Add Task</string>
+    <string name="prepare_wireframe_for_main_flow">Prepare Wireframe for Main Flow</string>
+    <string name="_4_oct">4 Oct</string>
+    <string name="create_new_task">Create new task</string>
 </resources>

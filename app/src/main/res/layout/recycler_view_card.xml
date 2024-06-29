@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/recycler_card_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/_8dp"
+    app:cardBackgroundColor="#80504C4C"
+    android:elevation="1dp"
+    app:cardUseCompatPadding="true"
+    android:id="@+id/recycler_view_card">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/whiteRectangle"
+            android:layout_width="@dimen/_15dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/cardTittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prepare_wireframe_for_main_flow"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="@dimen/font_size_16sp"
+            android:textColor="@color/white"
+            android:layout_toEndOf="@+id/whiteRectangle"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_15dp"/>
+
+        <ImageView
+            android:id="@+id/dateIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardTittle"
+            android:layout_toEndOf="@+id/whiteRectangle"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginTop="@dimen/_5dp"
+            android:src="@drawable/date_group_30"/>
+
+        <TextView
+            android:id="@+id/cardDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardTittle"
+            android:layout_toEndOf="@+id/dateIcon"
+            android:layout_marginStart="@dimen/_10dp"
+            android:layout_alignTop="@+id/dateIcon"
+            android:layout_alignBottom="@+id/dateIcon"
+            android:gravity="center"
+            android:fontFamily="@font/inter_regular"
+            android:textSize="@dimen/font_size_14sp"
+            android:textColor="@color/white_80"
+            android:text="@string/_4_oct"/>
+        
+        <CheckBox
+            android:id="@+id/isDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_BA83DE"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_15dp"
+            android:layout_centerVertical="true"
+            android:backgroundTintMode="@color/color_BA83DE"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
