@@ -20,4 +20,22 @@
         <item name="android:focusable">true</item>
     </style>
 
+<!--    Time Text Style-->
+    <style name="TimeTextStyle" parent="android:Widget.TextView">
+        <item name="android:layout_marginStart">@dimen/_15dp</item>
+        <item name="android:textColor">@color/white_80</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/font_size_18sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+<!--    Priority Buttons Style-->
+    <style name="priorityBtnStyle" parent="android:Widget.ActionButton">
+        <item name="android:height">40dp</item>
+        <item name="android:background">@drawable/toggle_btn</item>
+        <item name="android:textColor">@color/color_FACBBA</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">@dimen/font_size_16sp</item>
+    </style>
 </resources>

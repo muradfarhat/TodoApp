@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="Fragments.CreateNewTaskFragment"
     android:background="@color/black"
     android:id="@+id/createNewTask">
@@ -42,11 +43,237 @@
             </RelativeLayout>
 
 <!--            choose date -->
-            
+
+            <TextView
+                android:id="@+id/schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schedule"
+                android:layout_below="@+id/pageTittle"
+                style="@style/PageSectionsTextStyle"/>
+
+            <EditText
+                android:id="@+id/taskName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name"
+                android:layout_below="@+id/schedule"
+                android:singleLine="true"
+                style="@style/EditTextCommonStyle"/>
+
+            <EditText
+                android:id="@+id/taskDescription"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_120dp"
+                android:hint="@string/description"
+                android:layout_below="@+id/taskName"
+                android:maxLines="5"
+                android:layout_marginTop="@dimen/_15dp"
+                android:gravity="top"
+                style="@style/EditTextCommonStyle"/>
+
+            <LinearLayout
+                android:id="@+id/taskTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/taskDescription"
+                android:layout_marginTop="@dimen/_30dp"
+                android:showDividers="middle"
+                android:divider="@drawable/linear_divider"
+                android:weightSum="2">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/startTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/start_time"
+                        style="@style/PageSectionsTextStyle"
+                        android:layout_marginTop="0dp"
+                        android:textSize="@dimen/_20sp"
+                        android:textColor="@color/white_80"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/startTime"
+                        android:layout_marginTop="@dimen/_10dp"
+                        app:cardBackgroundColor="@color/color_181818"
+                        app:cardCornerRadius="@dimen/_14dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="@dimen/_8dp"
+                            android:paddingVertical="@dimen/_14dp">
+
+                            <ImageView
+                                android:id="@+id/timeIcon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/time_icon"
+                                android:layout_alignParentStart="true"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/_06_00_pm"
+                                android:layout_toEndOf="@+id/timeIcon"
+                                style="@style/TimeTextStyle"/>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/endTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/end_time"
+                        style="@style/PageSectionsTextStyle"
+                        android:layout_marginTop="0dp"
+                        android:textSize="@dimen/_20sp"
+                        android:textColor="@color/white_80"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/endTime"
+                        android:layout_marginTop="@dimen/_10dp"
+                        app:cardBackgroundColor="@color/color_181818"
+                        app:cardCornerRadius="@dimen/_14dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingHorizontal="@dimen/_8dp"
+                            android:paddingVertical="@dimen/_14dp">
+
+                            <ImageView
+                                android:id="@+id/timeIcon2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/time_icon"
+                                android:layout_alignParentStart="true"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/_06_00_pm"
+                                android:layout_toEndOf="@+id/timeIcon2"
+                                style="@style/TimeTextStyle"/>
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/priorityText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/priority"
+                style="@style/PageSectionsTextStyle"
+                android:layout_below="@id/taskTime"
+                android:textSize="@dimen/_20sp"
+                android:textColor="@color/white_80"/>
+
+
+            <LinearLayout
+                android:id="@+id/priorityBtnGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/priorityText"
+                android:layout_marginTop="@dimen/_10dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:showDividers="middle"
+                android:divider="@drawable/linear_divider_10">
+
+                <Button
+                    android:id="@+id/buttonHigh"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40dp"
+                    style="@style/priorityBtnStyle"
+                    android:text="@string/high"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/buttonMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40dp"
+                    style="@style/priorityBtnStyle"
+                    android:text="@string/medium"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/buttonLow"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40dp"
+                    style="@style/priorityBtnStyle"
+                    android:text="@string/low"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/getAlertText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/get_alert_for_this_task"
+                android:textColor="@color/white_80"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="@dimen/font_size_16sp"
+                android:layout_alignTop="@+id/getAlertBtn"
+                android:layout_alignBottom="@+id/getAlertBtn"
+                android:gravity="center"
+                />
+
+            <Switch
+                android:id="@+id/getAlertBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/priorityBtnGroup"
+                android:layout_marginTop="@dimen/_30dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml"
+                android:textOn=""
+                android:textOff=""
+                android:checked="true"
+                android:track="@drawable/switch_btn_style"
+                android:thumb="@drawable/thumb"/>
 
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="@string/create"
+        android:layout_margin="@dimen/_10dp"
+        android:background="@drawable/btn_style_"
+        android:textColor="@color/white"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="@dimen/font_size_16sp"
+        android:textAllCaps="false"/>
 
 
 </FrameLayout>
