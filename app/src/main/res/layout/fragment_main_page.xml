@@ -204,7 +204,7 @@
                 android:layout_alignBottom="@+id/TodayTask"
                 style="@style/SeeAllTextStyle"/>
 
-<!--            Today's Tasks Recycler View-->
+            <!--            Today's Tasks Recycler View-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/todayTasksRecyclerView"
                 android:layout_width="match_parent"
@@ -229,7 +229,7 @@
                 android:layout_alignBottom="@+id/allTasks"
                 style="@style/SeeAllTextStyle"/>
 
-<!--            All Tasks Recycler View-->
+            <!--            All Tasks Recycler View-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/allTasksRecyclerView"
                 android:layout_width="match_parent"

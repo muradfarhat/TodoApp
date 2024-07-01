@@ -2,7 +2,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Fragments.SeeAllTasksFragment">
+    tools:context="Fragments.SeeAllTasksFragment"
+    android:background="@color/black">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/pageTittle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100dp"
+            android:layout_marginHorizontal="@dimen/_15dp">
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_icon"
+                android:background="@android:color/transparent"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/allTasksText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all_tasks"
+                style="@style/pageTopTittleStyle"/>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allTasksRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/pageTittle"/>
+
+    </RelativeLayout>
 
 </FrameLayout>
