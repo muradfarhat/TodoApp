@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +9,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/createTaskBtn">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,13 +42,58 @@
 
 <!--            choose date -->
 
+            <RelativeLayout
+                android:id="@+id/calenderBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pageTittle"
+                android:layout_marginTop="@dimen/_30dp">
+
+                <ImageButton
+                    android:id="@+id/calendar_prev_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/left_vector"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/txt_current_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/_04_mar_11_mar"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="@dimen/_20sp"
+                    android:textColor="@color/color_BA83DE"
+                    android:layout_centerInParent="true"/>
+
+                <ImageButton
+                    android:id="@+id/calendar_next_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/right_vector"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/calendar_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_30dp"
+                android:layout_below="@+id/calenderBtn"/>
+
             <TextView
                 android:id="@+id/schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/schedule"
-                android:layout_below="@+id/pageTittle"
-                style="@style/PageSectionsTextStyle"/>
+                android:layout_below="@+id/calendar_recycler_view"
+                style="@style/PageSectionsTextStyle"
+                android:layout_marginTop="@dimen/_10dp"/>
 
             <EditText
                 android:id="@+id/taskName"
@@ -240,6 +286,7 @@
                 android:layout_alignTop="@+id/getAlertBtn"
                 android:layout_alignBottom="@+id/getAlertBtn"
                 android:gravity="center"
+                android:layout_marginBottom="@dimen/_20dp"
                 />
 
             <Switch
@@ -261,16 +308,18 @@
     </androidx.core.widget.NestedScrollView>
 
     <Button
+        android:id="@+id/createTaskBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:text="@string/create"
         android:layout_margin="@dimen/_10dp"
         android:background="@drawable/btn_style_"
         android:textColor="@color/white"
         android:fontFamily="@font/inter_regular"
         android:textSize="@dimen/font_size_16sp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:layout_alignParentBottom="true"
+        />
 
 
-</FrameLayout>
+</RelativeLayout>

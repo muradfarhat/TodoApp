@@ -19,10 +19,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val fragment =
-            if(DataClass.data().isEmpty())
-                NoTasksFragment()
-            else MainPageFragment()
+        val fragment = CreateNewTaskFragment()
+//            if(DataClass.data().isEmpty())
+//                NoTasksFragment()
+//            else MainPageFragment()
 
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.mainActivityLayout, fragment)

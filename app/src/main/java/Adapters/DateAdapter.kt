@@ -1,0 +1,32 @@
+package Adapters
+
+import Models.DateItem
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.todoapp.R
+
+class DateAdapter(private val dateList: List<DateItem>) :
+    RecyclerView.Adapter<DateAdapter.DateViewHolder>() {
+
+    class DateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvDay: TextView = itemView.findViewById(R.id.tvDay)
+        val tvDate: TextView = itemView.findViewById(R.id.tvDate)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.custom_calender_day, parent, false)
+        return DateViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: DateViewHolder, position: Int) {
+        val dateItem = dateList[position]
+        holder.tvDay.text = dateItem.day
+        holder.tvDate.text = dateItem.date
+    }
+
+    override fun getItemCount() = dateList.size
+}
