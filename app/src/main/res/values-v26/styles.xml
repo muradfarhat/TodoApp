@@ -10,14 +10,6 @@
         <item name="android:paddingHorizontal">@dimen/_8dp</item>
         <item name="android:paddingVertical">@dimen/_14dp</item>
         <item name="android:textColor">@color/white_80</item>
+        <item name="android:inputType">textCapWords</item>
     </style>
-
-    <!--    Card view common style-->
-<!--    <style name="cardViewCommonStyle" parent="androidx:cardview.widget.CardView" >-->
-<!--        <item name="android:layout_marginTop">@dimen/_10dp</item>-->
-<!--        <item name="app:cardBackgroundColor">@color/color_181818</item>-->
-<!--        <item name="app:cardCornerRadius">@dimen/_14dp</item>-->
-<!--        <item name="android:paddingHorizontal">@dimen/_8dp</item>-->
-<!--        <item name="android:paddingVertical">@dimen/_14dp</item>-->
-<!--    </style>-->
 </resources>
