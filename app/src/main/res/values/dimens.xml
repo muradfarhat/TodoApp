@@ -31,4 +31,5 @@
     <dimen name="_120dp">120dp</dimen>
     <dimen name="_20sp">20sp</dimen>
     <dimen name="_40dp">40dp</dimen>
+    <dimen name="font_size_15sp">15sp</dimen>
 </resources>

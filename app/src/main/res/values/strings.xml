@@ -23,7 +23,8 @@
     <string name="start_time">Start Time</string>
     <string name="end_time">End Time</string>
     <string name="priority">Priority</string>
-    <string name="_06_00_pm">06 : 00 PM</string>
+    <string name="_06_00_pm">06:00 PM</string>
+    <string name="_06_00_am">06:00 AM</string>
     <string name="high">High</string>
     <string name="medium">Medium</string>
     <string name="low">Low</string>

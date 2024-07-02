@@ -1,9 +1,14 @@
 package Models
 
+import Enum.SelectedPriority
+
 data class Task (
-    var id: Int,
     var tittle: String,
+    var description: String,
     var date: String,
-    var isDone: Boolean,
-    var description: String
+    var startTime: String,
+    var endTime: String,
+    var getAlert: Boolean,
+    var priority: SelectedPriority,
+    var isDone: Boolean
 )

@@ -46,4 +46,12 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textSize">@dimen/font_size_25sp</item>
     </style>
+
+<!--    Calender Text Style-->
+    <style name="calenderTextStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/white_80</item>
+        <item name="android:textSize">@dimen/font_size_15sp</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
 </resources>
