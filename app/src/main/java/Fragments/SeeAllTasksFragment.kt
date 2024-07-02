@@ -1,6 +1,7 @@
 package Fragments
 
 import Adapters.CustomAdapter
+import Interfaces.OnCheckBoxClickListener
 import Models.DataClass
 import Util.UtilMethods
 import android.os.Bundle
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 
-class SeeAllTasksFragment : Fragment() {
+class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
 
     private lateinit var backBtn: ImageButton
 
@@ -27,7 +28,7 @@ class SeeAllTasksFragment : Fragment() {
         val allRecyclerView: RecyclerView = view.findViewById(R.id.allTasksRecycler)
         allRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = CustomAdapter(DataClass.data())
+        val adapter = CustomAdapter(DataClass.data(), this)
         allRecyclerView.adapter = adapter
 
         backBtn = view.findViewById(R.id.backBtn)
@@ -43,5 +44,9 @@ class SeeAllTasksFragment : Fragment() {
         fragmentTransaction.replace(R.id.mainActivityLayout, UtilMethods.selectFragment())
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    override fun onClickCheckBox(isChecked: Boolean, position: Int) {
+        DataClass.data()[position].isDone = isChecked
     }
 }

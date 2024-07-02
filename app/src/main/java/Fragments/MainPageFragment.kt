@@ -1,10 +1,12 @@
 package Fragments
 
 import Adapters.CustomAdapter
+import Interfaces.OnCheckBoxClickListener
 import Models.DataClass
 import Models.Task
 import android.os.Bundle
 import android.app.Fragment
+import android.icu.text.Transliterator.Position
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainPageFragment : Fragment() {
+class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
     private lateinit var floatingBtn: FloatingActionButton
     private lateinit var seeAll: TextView
@@ -30,7 +32,7 @@ class MainPageFragment : Fragment() {
         val allRecyclerView: RecyclerView = view.findViewById(R.id.allTasksRecyclerView)
         allRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = CustomAdapter(DataClass.data())
+        val adapter = CustomAdapter(DataClass.data(), this)
         dailyRecyclerView.adapter = adapter
         allRecyclerView.adapter = adapter
 
@@ -52,5 +54,9 @@ class MainPageFragment : Fragment() {
         fragmentTransaction.replace(R.id.mainActivityLayout, fragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    override fun onClickCheckBox(isChecked: Boolean, position: Int) {
+        DataClass.data()[position].isDone = isChecked
     }
 }

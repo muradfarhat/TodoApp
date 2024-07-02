@@ -1,5 +1,6 @@
 package Adapters
 
+import Interfaces.OnCheckBoxClickListener
 import Models.Task
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 
-class CustomAdapter(private val data: List<Task>): RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter(private val data: List<Task>, private val listener: OnCheckBoxClickListener): RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val cardTittle: TextView = itemView.findViewById(R.id.cardTittle)
@@ -27,6 +28,9 @@ class CustomAdapter(private val data: List<Task>): RecyclerView.Adapter<CustomAd
         holder.cardTittle.text = data[position].tittle
         holder.cardDate.text = data[position].date
         holder.isDone.isChecked = data[position].isDone
+        holder.isDone.setOnClickListener {
+            listener.onClickCheckBox(holder.isDone.isChecked, position)
+        }
     }
 
     override fun getItemCount() = data.size
