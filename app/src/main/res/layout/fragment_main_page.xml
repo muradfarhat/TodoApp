@@ -173,7 +173,7 @@
                         android:layout_marginTop="@dimen/_5dp"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                         android:max="100"
-                        android:progress="66"
+                        android:progress="20"
                         android:progressDrawable="@drawable/progress_bar_bg"/>
 
                 </RelativeLayout>
