@@ -79,15 +79,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="@dimen/_20dp"
-                    android:textColorHint="@color/white"
-                    android:hint="@string/search_hint_text"
-                    android:fontFamily="@font/inter_regular"
-                    android:textSize="@dimen/font_size_16sp"
-                    android:background="@android:color/transparent"
-                    android:singleLine="true"/>
+                    style="@style/searchEditText"/>
 
             </LinearLayout>
 
