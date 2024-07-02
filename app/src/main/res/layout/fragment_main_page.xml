@@ -222,6 +222,7 @@
                 android:layout_below="@+id/todayTasksRecyclerView"/>
 
             <TextView
+                android:id="@+id/seeAllTasks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/todayTasksRecyclerView"

@@ -6,6 +6,7 @@ import Interfaces.OnDateClickListener
 import Models.DataClass
 import Models.DateItem
 import Models.Task
+import Util.UtilMethods
 import android.app.ActivityManager.TaskDescription
 import android.os.Bundle
 import android.app.Fragment
@@ -31,6 +32,9 @@ import java.util.Date
 import java.util.Locale
 
 class CreateNewTaskFragment : Fragment(), OnDateClickListener {
+
+    // back btn
+    private lateinit var backBtn: ImageButton
 
     // priority variables
     private lateinit var buttonHigh: Button
@@ -75,6 +79,12 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_create_new_task, container, false)
+
+        // Back Btn
+        backBtn = view.findViewById(R.id.backBtn)
+        backBtn.setOnClickListener {
+            navigateToMainPageFrag()
+        }
 
         // Calender
         calendar = Calendar.getInstance()
@@ -185,13 +195,15 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     private fun updateDateList() {
         dateList.clear()
         val dateFormat = SimpleDateFormat("EEE", Locale.getDefault())
+        val monthFormat = SimpleDateFormat("MMM", Locale.getDefault())
         val startOfWeek = calendar.clone() as Calendar
         startOfWeek.set(Calendar.DAY_OF_WEEK, startOfWeek.firstDayOfWeek)
 
         for (i in 0..6) {
             val date = startOfWeek.time
             val day = dateFormat.format(date)
-            val dateItem = DateItem(day, startOfWeek.get(Calendar.DAY_OF_MONTH).toString(), startOfWeek.get(Calendar.MONTH).toString())
+            val month = monthFormat.format(date)
+            val dateItem = DateItem(day, startOfWeek.get(Calendar.DAY_OF_MONTH).toString(), month.toString())
             dateList.add(dateItem)
             startOfWeek.add(Calendar.DAY_OF_YEAR, 1)
         }
@@ -208,7 +220,9 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        val timePickerDialog = TimePickerDialog(activity, { _, hourOfDay, minute ->
+        val timePickerDialog = TimePickerDialog(activity,
+            R.style.timePickerStyle
+            ,{ _, hourOfDay, minute ->
             updateTimeText(hourOfDay, minute, text)
         }, hour, minute, false)
         timePickerDialog.show()
@@ -247,9 +261,17 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
             DataClass.addTask(newTask)
             Toast.makeText(context, "Task Created", Toast.LENGTH_SHORT).show()
+            navigateToMainPageFrag()
 
         } else {
             Toast.makeText(context, "Fill All Data!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun navigateToMainPageFrag() {
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.mainActivityLayout, UtilMethods.selectFragment())
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }

@@ -2,16 +2,20 @@ package Fragments
 
 import Adapters.CustomAdapter
 import Models.DataClass
+import Util.UtilMethods
 import android.os.Bundle
 import android.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 
 class SeeAllTasksFragment : Fragment() {
+
+    private lateinit var backBtn: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +30,18 @@ class SeeAllTasksFragment : Fragment() {
         val adapter = CustomAdapter(DataClass.data())
         allRecyclerView.adapter = adapter
 
+        backBtn = view.findViewById(R.id.backBtn)
+        backBtn.setOnClickListener {
+            navigateToMainPageFrag()
+        }
+
         return view
+    }
+
+    private fun navigateToMainPageFrag() {
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.mainActivityLayout, UtilMethods.selectFragment())
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }
