@@ -45,6 +45,8 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     // date variable
     private lateinit var taskDate: DateItem
     private var isDateSelected = false
+    private lateinit var calendar_prev_button: ImageButton
+    private lateinit var calendar_next_button: ImageButton
 
     // Name & description
     private lateinit var taskName: TextView
@@ -80,45 +82,35 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_create_new_task, container, false)
 
+        initView(view)
+        onClickListeners(view)
+
+        updateDateList()
+
         // Back Btn
-        backBtn = view.findViewById(R.id.backBtn)
+        updateDateText(view)
+        setButtonState(buttonHigh)
+
+        return view
+    }
+
+    private fun onClickListeners(view: View) {
         backBtn.setOnClickListener {
             navigateToMainPageFrag()
         }
 
-        // Calender
-        calendar = Calendar.getInstance()
-        recyclerView = view.findViewById(R.id.calendar_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        adapter = DateAdapter(dateList, this)
-        recyclerView.adapter = adapter
-
-        view.findViewById<ImageButton>(R.id.calendar_prev_button).setOnClickListener {
+        calendar_prev_button.setOnClickListener {
             calendar.add(Calendar.WEEK_OF_YEAR, -1)
             updateDateList()
             updateDateText(view)
         }
 
-        view.findViewById<ImageButton>(R.id.calendar_next_button).setOnClickListener {
+        calendar_next_button.setOnClickListener {
             calendar.add(Calendar.WEEK_OF_YEAR, 1)
             updateDateList()
             updateDateText(view)
+
         }
-
-        updateDateText(view)
-        updateDateList()
-
-        // name & description
-        taskName = view.findViewById(R.id.taskName)
-        taskDescription = view.findViewById(R.id.taskDescription)
-
-        // priority toggle btns
-        buttonHigh = view.findViewById(R.id.buttonHigh)
-        buttonMedium = view.findViewById(R.id.buttonMedium)
-        buttonLow = view.findViewById(R.id.buttonLow)
-
-        setButtonState(buttonHigh)
-        taskPriority = SelectedPriority.high
 
         buttonHigh.setOnClickListener {
             setButtonState(buttonHigh)
@@ -133,66 +125,51 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             taskPriority = SelectedPriority.low
         }
 
-
-        // Set time for task btns
-        startTimeText = view.findViewById(R.id.startTimeText)
         startTimeText.setOnClickListener {
             showTimePickerDialog(startTimeText)
         }
 
-        endTimeText = view.findViewById(R.id.endTimeText)
         endTimeText.setOnClickListener {
             showTimePickerDialog(endTimeText)
         }
 
-        getAlert = view.findViewById(R.id.getAlertBtn)
-
-        // create task btn
-        createTask = view.findViewById(R.id.createTaskBtn)
         createTask.setOnClickListener {
             createTaskOnClick()
         }
-
-        return view
     }
 
-    private fun setButtonState(selectedButton: Button) {
-        resetButtons()
+    private fun initView(view: View) {
+        backBtn = view.findViewById(R.id.backBtn)
+        // Calender
+        calendar = Calendar.getInstance()
+        recyclerView = view.findViewById(R.id.calendar_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        adapter = DateAdapter(dateList, this)
+        recyclerView.adapter = adapter
 
-        selectedButton.background = ContextCompat.getDrawable(context, R.drawable.selected_btn_style)
-        selectedButton.setTextColor(Color.BLACK)
+        calendar_prev_button = view.findViewById(R.id.calendar_prev_button)
+        calendar_next_button = view.findViewById(R.id.calendar_next_button)
+
+        // name & description
+        taskName = view.findViewById(R.id.taskName)
+        taskDescription = view.findViewById(R.id.taskDescription)
+
+        // priority toggle btns
+        buttonHigh = view.findViewById(R.id.buttonHigh)
+        buttonMedium = view.findViewById(R.id.buttonMedium)
+        buttonLow = view.findViewById(R.id.buttonLow)
+
+        startTimeText = view.findViewById(R.id.startTimeText)
+        endTimeText = view.findViewById(R.id.endTimeText)
+
+        getAlert = view.findViewById(R.id.getAlertBtn)
+
+        createTask = view.findViewById(R.id.createTaskBtn)
+
+        taskPriority = SelectedPriority.high
     }
 
-    private fun resetButtons() {
-        val defaultTextColor = Color.parseColor("#FFEFE9")
-
-        buttonHigh.background = ContextCompat.getDrawable(context, R.drawable.toggle_btn)
-        buttonHigh.setTextColor(defaultTextColor)
-
-        buttonMedium.background = ContextCompat.getDrawable(context, R.drawable.toggle_btn)
-        buttonMedium.setTextColor(defaultTextColor)
-
-        buttonLow.background = ContextCompat.getDrawable(context, R.drawable.toggle_btn)
-        buttonLow.setTextColor(defaultTextColor)
-    }
-
-    private fun updateDateText(view: View) {
-        // Get the first and last day of the week
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
-        firstDayOfWeek = calendar.time
-
-        calendar.add(Calendar.DAY_OF_WEEK, 6)
-        lastDayOfWeek = calendar.time
-
-        // Format the dates
-        val dateFormat = SimpleDateFormat("MMM dd", Locale.getDefault())
-        val firstDayFormatted = dateFormat.format(firstDayOfWeek)
-        val lastDayFormatted = dateFormat.format(lastDayOfWeek)
-
-        view.findViewById<TextView>(R.id.txt_current_month).text = firstDayFormatted + " - " + lastDayFormatted
-    }
-
-    private fun updateDateList() {
+    fun updateDateList() {
         dateList.clear()
         val dateFormat = SimpleDateFormat("EEE", Locale.getDefault())
         val monthFormat = SimpleDateFormat("MMM", Locale.getDefault())
@@ -210,12 +187,48 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         adapter.notifyDataSetChanged()
     }
 
+    fun setButtonState(selectedButton: Button) {
+        resetButtons()
+
+        selectedButton.background = ContextCompat.getDrawable(context, R.drawable.selected_btn_style)
+        selectedButton.setTextColor(Color.BLACK)
+    }
+
+     fun resetButtons() {
+        val defaultTextColor = Color.parseColor(getString(R.string.ffefe9))
+
+        buttonHigh.background = ContextCompat.getDrawable(activity, R.drawable.toggle_btn)
+        buttonHigh.setTextColor(defaultTextColor)
+
+        buttonMedium.background = ContextCompat.getDrawable(context, R.drawable.toggle_btn)
+        buttonMedium.setTextColor(defaultTextColor)
+
+        buttonLow.background = ContextCompat.getDrawable(context, R.drawable.toggle_btn)
+        buttonLow.setTextColor(defaultTextColor)
+    }
+
+     fun updateDateText(view: View) {
+        // Get the first and last day of the week
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+        firstDayOfWeek = calendar.time
+
+        calendar.add(Calendar.DAY_OF_WEEK, 6)
+        lastDayOfWeek = calendar.time
+
+        // Format the dates
+        val dateFormat = SimpleDateFormat("MMM dd", Locale.getDefault())
+        val firstDayFormatted = dateFormat.format(firstDayOfWeek)
+        val lastDayFormatted = dateFormat.format(lastDayOfWeek)
+
+        view.findViewById<TextView>(R.id.txt_current_month).text = firstDayFormatted + " - " + lastDayFormatted
+    }
+
     override fun onDateClick(dateItem: DateItem) {
         this.taskDate = dateItem
         isDateSelected = true
     }
 
-    private fun showTimePickerDialog(text: TextView) {
+     fun showTimePickerDialog(text: TextView) {
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
@@ -228,7 +241,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         timePickerDialog.show()
     }
 
-    private fun updateTimeText(hourOfDay: Int, minute: Int, text: TextView) {
+     fun updateTimeText(hourOfDay: Int, minute: Int, text: TextView) {
         var hour = hourOfDay
         val amPm: String = if (hourOfDay >= 12) {
             if (hourOfDay > 12) hour -= 12
@@ -242,7 +255,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         text.text = time
     }
 
-    private fun createTaskOnClick() {
+     fun createTaskOnClick() {
         name = taskName.text.toString()
         description = taskDescription.text.toString()
 

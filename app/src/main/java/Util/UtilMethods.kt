@@ -3,6 +3,15 @@ package Util
 import Fragments.MainPageFragment
 import Fragments.NoTasksFragment
 import Models.DataClass
+import Models.DateItem
+import Models.Task
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Locale
 
 class UtilMethods {
     companion object {
@@ -10,6 +19,15 @@ class UtilMethods {
             if(DataClass.data().isEmpty())
                 return NoTasksFragment()
             else return MainPageFragment()
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun getCurrentDate(): String {
+            val currentDate = LocalDate.now()
+            val formatter = DateTimeFormatter.ofPattern("d MMM")
+            val formattedDate = currentDate.format(formatter).toString()
+
+            return formattedDate
         }
     }
 }
