@@ -1,6 +1,7 @@
 package Fragments
 
 import Adapters.CustomAdapter
+import DAOs.AppDatabase
 import Interfaces.OnCheckBoxClickListener
 import Models.DataClass
 import Models.Task
@@ -8,9 +9,7 @@ import Util.UtilMethods
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.app.Fragment
-import android.icu.text.Transliterator.Position
 import android.os.Build
-import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +18,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.todoapp.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
@@ -38,6 +36,11 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
     private var todayTasks = emptyList<Task>()
 
+    // For Room DataBase
+    companion object {
+        lateinit var database: AppDatabase
+    }
+
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -46,24 +49,36 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main_page, container, false)
 
+        // build my database
+        dataBaseBuilder()
+
         initView(view)
         onClickListeners()
 
-
-
         // Ratio between daily tasks and all tasks
-
-        val ratioNum = (todayTasks.size.toDouble() / DataClass.data().size.toDouble()) * 100.0
-        numOfDoneTasks.text = "${todayTasks.size}/${DataClass.data().size}"
-        ratio.text = "${ratioNum.toInt()}%"
-        progressBar.progress = ratioNum.toInt()
-        mainPageTitle.text = "You have got ${todayTasks.size} tasks today to complete"
+        dailyTasksProgress()
 
         // Recycler views
         setRecyclerViewAdapters()
 
 
         return view
+    }
+
+    private fun dataBaseBuilder() {
+        database = Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "my_tasksDB"
+        ).build()
+    }
+
+    private fun dailyTasksProgress() {
+        val ratioNum = (todayTasks.size.toDouble() / DataClass.data().size.toDouble()) * 100.0
+        numOfDoneTasks.text = "${todayTasks.size}/${DataClass.data().size}"
+        ratio.text = "${ratioNum.toInt()}%"
+        progressBar.progress = ratioNum.toInt()
+        mainPageTitle.text = "You have got ${todayTasks.size} tasks today to complete"
     }
 
     private fun setRecyclerViewAdapters() {
