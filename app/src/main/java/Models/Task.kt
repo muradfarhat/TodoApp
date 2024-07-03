@@ -1,16 +1,19 @@
 package Models
 
 import Enum.SelectedPriority
+import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "tasks")
 data class Task (
-    var tittle: String,
-    var description: String,
-    var date: String,
-    var startTime: String,
-    var endTime: String,
-    var getAlert: Boolean,
-    var priority: SelectedPriority,
-    var isDone: Boolean
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @ColumnInfo(name = "tittle") var tittle: String,
+    @ColumnInfo(name = "description") var description: String,
+    @ColumnInfo(name = "date") var date: String,
+    @ColumnInfo(name = "start_time") var startTime: String,
+    @ColumnInfo(name = "end_time") var endTime: String,
+    @ColumnInfo(name = "get_alert") var getAlert: Boolean,
+    @ColumnInfo(name = "priority") var priority: SelectedPriority,
+    @ColumnInfo(name = "is_done") var isDone: Boolean
 )

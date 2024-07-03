@@ -1,7 +1,6 @@
 package Fragments
 
 import Adapters.CustomAdapter
-import DAOs.AppDatabase
 import Interfaces.OnCheckBoxClickListener
 import Models.DataClass
 import Models.Task
@@ -18,7 +17,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.example.todoapp.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -36,11 +34,6 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
     private var todayTasks = emptyList<Task>()
 
-    // For Room DataBase
-    companion object {
-        lateinit var database: AppDatabase
-    }
-
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -49,9 +42,7 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main_page, container, false)
 
-        // build my database
-        dataBaseBuilder()
-
+        // initialize the view
         initView(view)
         onClickListeners()
 
@@ -63,14 +54,6 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
 
         return view
-    }
-
-    private fun dataBaseBuilder() {
-        database = Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            "my_tasksDB"
-        ).build()
     }
 
     private fun dailyTasksProgress() {
@@ -125,7 +108,8 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
         fragmentTransaction.commit()
     }
 
-    override fun onClickCheckBox(isChecked: Boolean, position: Int) {
-        DataClass.data()[position].isDone = isChecked
+    override fun onClickCheckBox(isChecked: Boolean, position: Long) {
+        val task = DataClass.data().first { it.id == position }
+        task.isDone = if(task.isDone) { false } else { true }
     }
 }

@@ -1,6 +1,7 @@
 package Fragments
 
 import Adapters.DateAdapter
+import DAOs.DatabaseBuilder
 import Enum.SelectedPriority
 import Interfaces.OnDateClickListener
 import Models.DataClass
@@ -255,7 +256,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         text.text = time
     }
 
-     fun createTaskOnClick() {
+    fun createTaskOnClick() {
         name = taskName.text.toString()
         description = taskDescription.text.toString()
 
@@ -273,6 +274,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             )
 
             DataClass.addTask(newTask)
+            DatabaseBuilder.database.taskDao().insertTask(newTask)
             Toast.makeText(context, "Task Created", Toast.LENGTH_SHORT).show()
             navigateToMainPageFrag()
 
@@ -281,7 +283,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         }
     }
 
-    private fun navigateToMainPageFrag() {
+    fun navigateToMainPageFrag() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.mainActivityLayout, UtilMethods.selectFragment())
         fragmentTransaction.addToBackStack(null)

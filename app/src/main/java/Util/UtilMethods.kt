@@ -1,5 +1,6 @@
 package Util
 
+import DAOs.DatabaseBuilder
 import Fragments.MainPageFragment
 import Fragments.NoTasksFragment
 import Models.DataClass
@@ -28,6 +29,10 @@ class UtilMethods {
             val formattedDate = currentDate.format(formatter).toString()
 
             return formattedDate
+        }
+
+        fun getDataFromDB() {
+            DataClass.setData(DatabaseBuilder.database.taskDao().getAllTasks())
         }
     }
 }

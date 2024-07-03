@@ -46,7 +46,8 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
         fragmentTransaction.commit()
     }
 
-    override fun onClickCheckBox(isChecked: Boolean, position: Int) {
-        DataClass.data()[position].isDone = isChecked
+    override fun onClickCheckBox(isChecked: Boolean, position: Long) {
+        val task = DataClass.data().first { it.id == position }
+        task.isDone = if(task.isDone) { false } else { true }
     }
 }
