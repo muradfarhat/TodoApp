@@ -79,7 +79,9 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
     private fun onClickListeners() {
         floatingBtn.setOnClickListener {
-            navigateToCreateTaskFrag(CreateNewTaskFragment())
+            val fragment = CreateNewTaskFragment()
+            fragment.arguments = UtilMethods.bundleValue(true, null)
+            navigateToCreateTaskFrag(fragment)
         }
 
         seeAll.setOnClickListener {
@@ -131,5 +133,11 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
         this.initTodayTasksList()
         this.dailyTasksProgress()
         this.setRecyclerViewAdapters()
+    }
+
+    override fun onClickTaskCard(task: Task) {
+        val fragment = CreateNewTaskFragment()
+        fragment.setArguments(UtilMethods.bundleValue(false, task))
+        this.navigateToCreateTaskFrag(fragment)
     }
 }

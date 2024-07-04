@@ -3,6 +3,7 @@ package Fragments
 import Adapters.CustomAdapter
 import DAOs.DatabaseBuilder
 import Interfaces.OnCheckBoxClickListener
+import Models.Task
 import Util.DataClass
 import Util.UtilMethods
 import android.os.Bundle
@@ -33,7 +34,7 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
 
         backBtn = view.findViewById(R.id.backBtn)
         backBtn.setOnClickListener {
-            navigateToMainPageFrag()
+            navigateToMainPageFrag(UtilMethods.selectFragment())
         }
 
         return view
@@ -50,9 +51,9 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
         allRecyclerView.adapter = adapter
     }
 
-    private fun navigateToMainPageFrag() {
+    private fun navigateToMainPageFrag(fragment: Fragment) {
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.mainActivityLayout, UtilMethods.selectFragment())
+        fragmentTransaction.replace(R.id.mainActivityLayout, fragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
@@ -70,5 +71,11 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
 
     override fun deleteTaskCallBack() {
         this.addRecyclerView()
+    }
+
+    override fun onClickTaskCard(task: Task) {
+        val fragment = CreateNewTaskFragment()
+        fragment.setArguments(UtilMethods.bundleValue(false, task))
+        this.navigateToMainPageFrag(fragment)
     }
 }

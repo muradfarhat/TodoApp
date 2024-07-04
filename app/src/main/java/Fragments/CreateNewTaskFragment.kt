@@ -7,6 +7,7 @@ import Interfaces.OnDateClickListener
 import Util.DataClass
 import Models.DateItem
 import Models.Task
+import Models.TimeItem
 import Util.UtilMethods
 import android.os.Bundle
 import android.app.Fragment
@@ -17,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
@@ -34,6 +36,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
     // back btn
     private lateinit var backBtn: ImageButton
+    private lateinit var createPageTitle: TextView
 
     // priority variables
     private lateinit var buttonHigh: Button
@@ -55,8 +58,6 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     private var description: String = ""
 
     // start & end time
-    private lateinit var startTime: Time
-    private lateinit var endTime: Time
 
     private lateinit var startTimeText: TextView
     private lateinit var endTimeText: TextView
@@ -66,6 +67,9 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
     // create task btn
     private lateinit var createTask: Button
+    private lateinit var modifyTaskBtn: Button
+    private lateinit var deleteTaskBtn: Button
+    private lateinit var modifyAndDeleteLayout: LinearLayout
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: DateAdapter
@@ -73,7 +77,11 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     private var dateList: MutableList<DateItem> = mutableListOf()
     private lateinit var firstDayOfWeek: Date
     private lateinit var lastDayOfWeek: Date
+    private lateinit var txt_current_month: TextView
 
+    // Bundle for pass data
+    private lateinit var bundle: Bundle
+    private var isCreate = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,9 +96,26 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
         // Back Btn
         updateDateText(view)
-        setButtonState(buttonHigh)
+        setButtonState(SelectedPriority.high)
+
+        setIsCreateView()
 
         return view
+    }
+
+    private fun setIsCreateView() {
+        if(isCreate) {
+            createTask.visibility = View.VISIBLE
+            modifyAndDeleteLayout.visibility = View.INVISIBLE
+        } else {
+            createTask.visibility = View.INVISIBLE
+            modifyAndDeleteLayout.visibility = View.VISIBLE
+//            bundle.getParcelable<Task>("task")?.let { this.modifyAndDeleteView(it) }
+            arguments?.let {
+                var task: Task? = it.getParcelable("task")!!
+                this.modifyAndDeleteView(task!!)
+            }
+        }
     }
 
     private fun onClickListeners(view: View) {
@@ -112,15 +137,15 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         }
 
         buttonHigh.setOnClickListener {
-            setButtonState(buttonHigh)
+            setButtonState(SelectedPriority.high)
             taskPriority = SelectedPriority.high
         }
         buttonMedium.setOnClickListener {
-            setButtonState(buttonMedium)
+            setButtonState(SelectedPriority.medium)
             taskPriority = SelectedPriority.medium
         }
         buttonLow.setOnClickListener {
-            setButtonState(buttonLow)
+            setButtonState(SelectedPriority.low)
             taskPriority = SelectedPriority.low
         }
 
@@ -138,6 +163,13 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     }
 
     private fun initView(view: View) {
+        //bundle = arguments
+        //isCreate = bundle.getBoolean("isCreate")
+        arguments?.let {
+            isCreate = it.getBoolean("isCreate")
+        }
+
+        createPageTitle = view.findViewById(R.id.createPageTitle)
         backBtn = view.findViewById(R.id.backBtn)
         // Calender
         calendar = Calendar.getInstance()
@@ -148,6 +180,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
         calendar_prev_button = view.findViewById(R.id.calendar_prev_button)
         calendar_next_button = view.findViewById(R.id.calendar_next_button)
+        txt_current_month = view.findViewById(R.id.txt_current_month)
 
         // name & description
         taskName = view.findViewById(R.id.taskName)
@@ -163,9 +196,12 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
         getAlert = view.findViewById(R.id.getAlertBtn)
 
-        createTask = view.findViewById(R.id.createTaskBtn)
-
         taskPriority = SelectedPriority.high
+
+        createTask = view.findViewById(R.id.createTaskBtn)
+        modifyAndDeleteLayout = view.findViewById(R.id.modifyAndDeleteLayout)
+        modifyTaskBtn = view.findViewById(R.id.modifyTaskBtn)
+        deleteTaskBtn = view.findViewById(R.id.deleteTaskBtn)
     }
 
     fun updateDateList() {
@@ -186,11 +222,16 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         adapter.notifyDataSetChanged()
     }
 
-    fun setButtonState(selectedButton: Button) {
+    fun setButtonState(selectedButton: SelectedPriority) {
         resetButtons()
+        val pButton: Button = when(selectedButton){
+            SelectedPriority.high -> buttonHigh
+            SelectedPriority.medium -> buttonMedium
+            SelectedPriority.low -> buttonLow
+        }
 
-        selectedButton.background = ContextCompat.getDrawable(context, R.drawable.selected_btn_style)
-        selectedButton.setTextColor(Color.BLACK)
+        pButton.background = ContextCompat.getDrawable(context, R.drawable.selected_btn_style)
+        pButton.setTextColor(Color.BLACK)
     }
 
      fun resetButtons() {
@@ -219,7 +260,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         val firstDayFormatted = dateFormat.format(firstDayOfWeek)
         val lastDayFormatted = dateFormat.format(lastDayOfWeek)
 
-        view.findViewById<TextView>(R.id.txt_current_month).text = firstDayFormatted + " - " + lastDayFormatted
+         txt_current_month.text = firstDayFormatted + " - " + lastDayFormatted
     }
 
     override fun onDateClick(dateItem: DateItem) {
@@ -241,17 +282,17 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     }
 
      fun updateTimeText(hourOfDay: Int, minute: Int, text: TextView) {
-        var hour = hourOfDay
-        val amPm: String = if (hourOfDay >= 12) {
-            if (hourOfDay > 12) hour -= 12
-            "PM"
-        } else {
-            if (hourOfDay == 0) hour = 12
-            "AM"
-        }
+         var hour = hourOfDay
+         val amPm: String = if (hourOfDay >= 12) {
+             if (hourOfDay > 12) hour -= 12
+             "PM"
+         } else {
+             if (hourOfDay == 0) hour = 12
+             "AM"
+         }
 
-        val time = String.format("%02d:%02d %s", hour, minute, amPm)
-        text.text = time
+         val time = String.format("%02d:%02d %s", hour, minute, amPm)
+         text.text = time
     }
 
     fun createTaskOnClick() {
@@ -263,8 +304,10 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             val newTask = Task(
                 tittle = name,
                 description = description,
-                date = "${taskDate.date} ${taskDate.month}",
-                startTime = startTimeText.text.toString(),
+                date = taskDate.date,
+                day = taskDate.day,
+                month = taskDate.month,
+                startTime =  startTimeText.text.toString(),
                 endTime = endTimeText.text.toString(),
                 getAlert = getAlert.isChecked,
                 priority = taskPriority,
@@ -286,5 +329,15 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         fragmentTransaction.replace(R.id.mainActivityLayout, UtilMethods.selectFragment())
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    fun modifyAndDeleteView(task: Task) {
+        createPageTitle.text = "Mobile App Research"
+        taskName.text = task.tittle
+        taskDescription.text = task.description
+        startTimeText.text = task.startTime
+        endTimeText.text = task.endTime
+        setButtonState(task.priority)
+        getAlert.isChecked = task.getAlert
     }
 }

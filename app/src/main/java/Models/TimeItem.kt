@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DateItem(val day: String, val date: String, var month: String): Parcelable
+data class TimeItem(val hour: Int, val min: Int, val pmAm: String): Parcelable

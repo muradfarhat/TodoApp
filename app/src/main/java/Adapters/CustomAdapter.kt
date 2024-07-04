@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 
 class CustomAdapter(private val data: List<Task>, private val listener: OnCheckBoxClickListener): RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+        val taskCard: CardView = itemView.findViewById(R.id.recycler_view_card)
         val cardTittle: TextView = itemView.findViewById(R.id.cardTittle)
         val cardDate: TextView = itemView.findViewById(R.id.cardDate)
         val isDone: CheckBox = itemView.findViewById(R.id.isDone)
@@ -30,7 +32,7 @@ class CustomAdapter(private val data: List<Task>, private val listener: OnCheckB
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.cardTittle.text = data[position].tittle
-        holder.cardDate.text = data[position].date
+        holder.cardDate.text = "${data[position].date} ${data[position].month}"
         holder.isDone.isChecked = data[position].isDone
         holder.isDone.setOnClickListener {
             listener.onClickCheckBox(holder.isDone.isChecked, data[position].id)
@@ -39,6 +41,9 @@ class CustomAdapter(private val data: List<Task>, private val listener: OnCheckB
             listener.onDeleteClick(data[position].id)
             listener.deleteTaskCallBack()
             notifyDataSetChanged()
+        }
+        holder.taskCard.setOnClickListener {
+            listener.onClickTaskCard(data[position])
         }
     }
 

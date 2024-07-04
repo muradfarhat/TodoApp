@@ -3,7 +3,9 @@ package Util
 import DAOs.DatabaseBuilder
 import Fragments.MainPageFragment
 import Fragments.NoTasksFragment
+import Models.Task
 import android.os.Build
+import android.os.Bundle
 import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -35,6 +37,13 @@ class UtilMethods {
 
         fun isListEmpty(): Boolean {
             return DataClass.data().isEmpty()
+        }
+
+        fun bundleValue(isCreate: Boolean, task: Task?): Bundle {
+            val bundle = Bundle()
+            bundle.putBoolean("isCreate", isCreate)
+            bundle.putParcelable("task", task)
+            return bundle
         }
     }
 }
