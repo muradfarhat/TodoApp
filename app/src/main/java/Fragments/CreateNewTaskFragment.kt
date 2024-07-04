@@ -4,11 +4,10 @@ import Adapters.DateAdapter
 import DAOs.DatabaseBuilder
 import Enum.SelectedPriority
 import Interfaces.OnDateClickListener
-import Models.DataClass
+import Util.DataClass
 import Models.DateItem
 import Models.Task
 import Util.UtilMethods
-import android.app.ActivityManager.TaskDescription
 import android.os.Bundle
 import android.app.Fragment
 import android.app.TimePickerDialog
@@ -17,7 +16,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.Switch
 import android.widget.TextView

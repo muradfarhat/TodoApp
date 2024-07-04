@@ -1,4 +1,6 @@
-package Models
+package Util
+
+import Models.Task
 
 class DataClass {
 

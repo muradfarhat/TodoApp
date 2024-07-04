@@ -3,16 +3,10 @@ package Util
 import DAOs.DatabaseBuilder
 import Fragments.MainPageFragment
 import Fragments.NoTasksFragment
-import Models.DataClass
-import Models.DateItem
-import Models.Task
 import android.os.Build
 import androidx.annotation.RequiresApi
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Locale
 
 class UtilMethods {
     companion object {
@@ -33,6 +27,14 @@ class UtilMethods {
 
         fun getDataFromDB() {
             DataClass.setData(DatabaseBuilder.database.taskDao().getAllTasks())
+        }
+
+        fun deleteTask(taskId: Long) {
+            DataClass.data().removeIf { it.id == taskId }
+        }
+
+        fun isListEmpty(): Boolean {
+            return DataClass.data().isEmpty()
         }
     }
 }

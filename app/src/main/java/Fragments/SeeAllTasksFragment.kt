@@ -1,8 +1,9 @@
 package Fragments
 
 import Adapters.CustomAdapter
+import DAOs.DatabaseBuilder
 import Interfaces.OnCheckBoxClickListener
-import Models.DataClass
+import Util.DataClass
 import Util.UtilMethods
 import android.os.Bundle
 import android.app.Fragment
@@ -17,6 +18,8 @@ import com.example.todoapp.R
 class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
 
     private lateinit var backBtn: ImageButton
+    private lateinit var allRecyclerView: RecyclerView
+    private lateinit var adapter: CustomAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,11 +28,8 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_see_all_tasks, container, false)
 
-        val allRecyclerView: RecyclerView = view.findViewById(R.id.allTasksRecycler)
-        allRecyclerView.layoutManager = LinearLayoutManager(activity)
-
-        val adapter = CustomAdapter(DataClass.data(), this)
-        allRecyclerView.adapter = adapter
+        initView(view)
+        addRecyclerView()
 
         backBtn = view.findViewById(R.id.backBtn)
         backBtn.setOnClickListener {
@@ -37,6 +37,17 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
         }
 
         return view
+    }
+
+    private fun initView(view: View) {
+        allRecyclerView = view.findViewById(R.id.allTasksRecycler)
+    }
+
+    private fun addRecyclerView() {
+        allRecyclerView.layoutManager = LinearLayoutManager(activity)
+
+        adapter = CustomAdapter(DataClass.data(), this)
+        allRecyclerView.adapter = adapter
     }
 
     private fun navigateToMainPageFrag() {
@@ -48,6 +59,16 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
 
     override fun onClickCheckBox(isChecked: Boolean, position: Long) {
         val task = DataClass.data().first { it.id == position }
-        task.isDone = if(task.isDone) { false } else { true }
+        task.isDone = !task.isDone
+    }
+
+    override fun onDeleteClick(position: Long) {
+        val toDeleteTask = DataClass.data().first { it.id == position }
+        DatabaseBuilder.database.taskDao().delete(toDeleteTask)
+        UtilMethods.deleteTask(position)
+    }
+
+    override fun deleteTaskCallBack() {
+        this.addRecyclerView()
     }
 }

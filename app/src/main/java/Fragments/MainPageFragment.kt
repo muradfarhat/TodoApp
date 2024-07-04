@@ -1,8 +1,9 @@
 package Fragments
 
 import Adapters.CustomAdapter
+import DAOs.DatabaseBuilder
 import Interfaces.OnCheckBoxClickListener
-import Models.DataClass
+import Util.DataClass
 import Models.Task
 import Util.UtilMethods
 import android.annotation.SuppressLint
@@ -28,11 +29,11 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
     private lateinit var ratio: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var mainPageTitle: TextView
-
     private lateinit var dailyRecyclerView: RecyclerView
     private lateinit var allRecyclerView: RecyclerView
-
     private var todayTasks = emptyList<Task>()
+    private lateinit var dailyAdapter: CustomAdapter
+    private lateinit var adapter: CustomAdapter
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -43,6 +44,7 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
         val view = inflater.inflate(R.layout.fragment_main_page, container, false)
 
         // initialize the view
+        initTodayTasksList()
         initView(view)
         onClickListeners()
 
@@ -51,7 +53,6 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
         // Recycler views
         setRecyclerViewAdapters()
-
 
         return view
     }
@@ -67,12 +68,12 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
     private fun setRecyclerViewAdapters() {
         dailyRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val dailyAdapter = CustomAdapter(todayTasks, this)
+        dailyAdapter = CustomAdapter(todayTasks, this)
         dailyRecyclerView.adapter = dailyAdapter
 
         allRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = CustomAdapter(DataClass.data(), this)
+        adapter = CustomAdapter(DataClass.data(), this)
         allRecyclerView.adapter = adapter
     }
 
@@ -86,10 +87,7 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun initView(view: View) {
-        // Get current day in month
-        todayTasks = DataClass.data().filter { it.date.equals(UtilMethods.getCurrentDate()) }
         numOfDoneTasks = view.findViewById(R.id.numOfDoneTasks)
         ratio = view.findViewById(R.id.ratio)
         progressBar = view.findViewById(R.id.progressBar)
@@ -98,6 +96,12 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
         allRecyclerView = view.findViewById(R.id.allTasksRecyclerView)
         floatingBtn = view.findViewById(R.id.floatingBtn)
         seeAll = view.findViewById(R.id.seeAllTasks)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun initTodayTasksList() {
+        // Get current day in month
+        todayTasks = DataClass.data().filter { it.date.equals(UtilMethods.getCurrentDate()) }
     }
 
 
@@ -110,6 +114,22 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
     override fun onClickCheckBox(isChecked: Boolean, position: Long) {
         val task = DataClass.data().first { it.id == position }
-        task.isDone = if(task.isDone) { false } else { true }
+        task.isDone = !task.isDone
+    }
+
+    override fun onDeleteClick(position: Long) {
+        val toDeleteTask = DataClass.data().first { it.id == position }
+        DatabaseBuilder.database.taskDao().delete(toDeleteTask)
+        UtilMethods.deleteTask(position)
+
+        if(UtilMethods.isListEmpty())
+            this.navigateToCreateTaskFrag(UtilMethods.selectFragment())
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun deleteTaskCallBack() {
+        this.initTodayTasksList()
+        this.dailyTasksProgress()
+        this.setRecyclerViewAdapters()
     }
 }

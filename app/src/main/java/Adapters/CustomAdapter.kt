@@ -2,10 +2,12 @@ package Adapters
 
 import Interfaces.OnCheckBoxClickListener
 import Models.Task
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
@@ -16,6 +18,7 @@ class CustomAdapter(private val data: List<Task>, private val listener: OnCheckB
         val cardTittle: TextView = itemView.findViewById(R.id.cardTittle)
         val cardDate: TextView = itemView.findViewById(R.id.cardDate)
         val isDone: CheckBox = itemView.findViewById(R.id.isDone)
+        val delete: ImageButton = itemView.findViewById(R.id.deleteTask)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,12 +27,18 @@ class CustomAdapter(private val data: List<Task>, private val listener: OnCheckB
         return ViewHolder(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.cardTittle.text = data[position].tittle
         holder.cardDate.text = data[position].date
         holder.isDone.isChecked = data[position].isDone
         holder.isDone.setOnClickListener {
             listener.onClickCheckBox(holder.isDone.isChecked, data[position].id)
+        }
+        holder.delete.setOnClickListener {
+            listener.onDeleteClick(data[position].id)
+            listener.deleteTaskCallBack()
+            notifyDataSetChanged()
         }
     }
 

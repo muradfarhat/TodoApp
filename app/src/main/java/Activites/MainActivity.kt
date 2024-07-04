@@ -1,7 +1,6 @@
 package Activites
 
 import DAOs.DatabaseBuilder
-import Models.DataClass
 import Util.UtilMethods
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
