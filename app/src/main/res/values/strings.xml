@@ -33,4 +33,6 @@
     <string name="no_tasks">No Tasks</string>
     <string name="_04_mar_11_mar">04 Mar - 11 Mar</string>
     <string name="ffefe9">#FFEFE9</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="delete_task">Delete Task</string>
 </resources>

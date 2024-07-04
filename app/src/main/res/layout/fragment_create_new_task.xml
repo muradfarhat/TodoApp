@@ -329,13 +329,40 @@
         android:layout_height="wrap_content"
         android:text="@string/create"
         android:layout_margin="@dimen/_10dp"
-        android:background="@drawable/btn_style_"
-        android:textColor="@color/white"
-        android:fontFamily="@font/inter_regular"
-        android:textSize="@dimen/font_size_16sp"
-        android:textAllCaps="false"
         android:layout_alignParentBottom="true"
-        />
+        android:visibility="invisible"
+        style="@style/createTaskBtnStyle"/>
+
+    <LinearLayout
+        android:id="@+id/modifyAndDeleteLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/_10dp"
+        android:showDividers="middle"
+        android:divider="@drawable/linear_divider_10"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/modifyTaskBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/edit_task"
+            style="@style/createTaskBtnStyle"/>
+
+        <Button
+            android:id="@+id/deleteTaskBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/delete_task"
+            style="@style/createTaskBtnStyle"
+            android:background="@drawable/gray_btn_style_"/>
+
+    </LinearLayout>
 
 
 </RelativeLayout>

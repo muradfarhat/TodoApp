@@ -16,4 +16,6 @@
     <color name="color_DE83B0">#DE83B0</color>
     <color name="color_1F1F1F">#1F1F1F</color>
     <color name="color_FACBBA">#FFEFE9</color>
+    <color name="color_4F4F4F_80">#CC4F4F4F</color>
+    <color name="color_4F4F4F">#4F4F4F</color>
 </resources>
