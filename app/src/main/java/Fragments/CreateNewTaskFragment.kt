@@ -7,7 +7,6 @@ import Interfaces.OnDateClickListener
 import Util.DataClass
 import Models.DateItem
 import Models.Task
-import Models.TimeItem
 import Util.UtilMethods
 import android.os.Bundle
 import android.app.Fragment
@@ -26,7 +25,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
-import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -120,6 +118,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
     private fun onClickListeners(view: View) {
         backBtn.setOnClickListener {
+            fragmentManager.popBackStack()
             navigateToMainPageFrag()
         }
 
@@ -133,7 +132,6 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             calendar.add(Calendar.WEEK_OF_YEAR, 1)
             updateDateList()
             updateDateText(view)
-
         }
 
         buttonHigh.setOnClickListener {
@@ -317,6 +315,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             DataClass.addTask(newTask)
             DatabaseBuilder.database.taskDao().insertTask(newTask)
             Toast.makeText(context, "Task Created", Toast.LENGTH_SHORT).show()
+            fragmentManager.popBackStack()
             navigateToMainPageFrag()
 
         } else {

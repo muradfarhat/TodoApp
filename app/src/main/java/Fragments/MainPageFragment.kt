@@ -3,18 +3,19 @@ package Fragments
 import Adapters.CustomAdapter
 import DAOs.DatabaseBuilder
 import Interfaces.OnCheckBoxClickListener
-import Util.DataClass
 import Models.Task
+import Util.DataClass
 import Util.UtilMethods
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.app.Fragment
 import android.os.Build
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -103,7 +104,7 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initTodayTasksList() {
         // Get current day in month
-        todayTasks = DataClass.data().filter { it.date.equals(UtilMethods.getCurrentDate()) }
+        todayTasks = DataClass.data().filter { "${it.date} ${it.month}".equals(UtilMethods.getCurrentDate()) }
     }
 
 
@@ -121,11 +122,15 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
 
     override fun onDeleteClick(position: Long) {
         val toDeleteTask = DataClass.data().first { it.id == position }
-        DatabaseBuilder.database.taskDao().delete(toDeleteTask)
-        UtilMethods.deleteTask(position)
+        DatabaseBuilder.database.taskDao().delete(position)
+        if(UtilMethods.deleteTask(toDeleteTask))
+            Toast.makeText(context, "Task Deleted!", Toast.LENGTH_SHORT).show()
+        else Toast.makeText(context, "Delete failed!", Toast.LENGTH_SHORT).show()
 
-        if(UtilMethods.isListEmpty())
+        if(UtilMethods.isListEmpty()) {
+            fragmentManager.popBackStack()
             this.navigateToCreateTaskFrag(UtilMethods.selectFragment())
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

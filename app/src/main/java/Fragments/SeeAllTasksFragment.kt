@@ -31,17 +31,21 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
 
         initView(view)
         addRecyclerView()
-
-        backBtn = view.findViewById(R.id.backBtn)
-        backBtn.setOnClickListener {
-            navigateToMainPageFrag(UtilMethods.selectFragment())
-        }
+        onClickListeners()
 
         return view
     }
 
     private fun initView(view: View) {
         allRecyclerView = view.findViewById(R.id.allTasksRecycler)
+        backBtn = view.findViewById(R.id.backBtn)
+    }
+
+    fun onClickListeners() {
+        backBtn.setOnClickListener {
+            fragmentManager.popBackStack()
+            navigateToMainPageFrag(UtilMethods.selectFragment())
+        }
     }
 
     private fun addRecyclerView() {
@@ -65,8 +69,8 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
 
     override fun onDeleteClick(position: Long) {
         val toDeleteTask = DataClass.data().first { it.id == position }
-        DatabaseBuilder.database.taskDao().delete(toDeleteTask)
-        UtilMethods.deleteTask(position)
+        DatabaseBuilder.database.taskDao().delete(position)
+        UtilMethods.deleteTask(toDeleteTask)
     }
 
     override fun deleteTaskCallBack() {

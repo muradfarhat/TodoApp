@@ -31,8 +31,8 @@ class UtilMethods {
             DataClass.setData(DatabaseBuilder.database.taskDao().getAllTasks())
         }
 
-        fun deleteTask(taskId: Long) {
-            DataClass.data().removeIf { it.id == taskId }
+        fun deleteTask(task: Task): Boolean {
+            return DataClass.data().remove(task)
         }
 
         fun isListEmpty(): Boolean {
