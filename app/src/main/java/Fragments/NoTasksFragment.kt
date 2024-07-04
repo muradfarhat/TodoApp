@@ -29,7 +29,9 @@ class NoTasksFragment : Fragment() {
     private fun navigateToCreateTaskFrag() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.mainActivityLayout, CreateNewTaskFragment())
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+            .addToBackStack(null)
+            .commit()
+//        fragmentTransaction.addToBackStack(null)
+//        fragmentTransaction.commit()
     }
 }

@@ -107,12 +107,13 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
         todayTasks = DataClass.data().filter { "${it.date} ${it.month}".equals(UtilMethods.getCurrentDate()) }
     }
 
-
     private fun navigateToCreateTaskFrag(fragment: android.app.Fragment) {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.mainActivityLayout, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+            .addToBackStack(null)
+            .commit()
+//        fragmentTransaction.addToBackStack(null)
+//        fragmentTransaction.commit()
     }
 
     override fun onClickCheckBox(isChecked: Boolean, position: Long) {

@@ -315,7 +315,8 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             DataClass.addTask(newTask)
             DatabaseBuilder.database.taskDao().insertTask(newTask)
             Toast.makeText(context, "Task Created", Toast.LENGTH_SHORT).show()
-            fragmentManager.popBackStack()
+            for(i in 0 until fragmentManager.backStackEntryCount)
+                fragmentManager.popBackStack()
             navigateToMainPageFrag()
 
         } else {
@@ -326,8 +327,10 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     fun navigateToMainPageFrag() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.mainActivityLayout, UtilMethods.selectFragment())
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+            .addToBackStack(null)
+            .commit()
+//        fragmentTransaction.addToBackStack(null)
+//        fragmentTransaction.commit()
     }
 
     fun modifyAndDeleteView(task: Task) {
