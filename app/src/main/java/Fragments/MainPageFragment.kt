@@ -114,9 +114,10 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
             .commit()
     }
 
-    override fun onClickCheckBox(isChecked: Boolean, position: Long) {
+    override fun onClickCheckBox(position: Long) {
         val task = DataClass.data().first { it.id == position }
         task.isDone = !task.isDone
+        DatabaseBuilder.database.taskDao().updateTaskStatus(task.id, task.isDone)
     }
 
     override fun onDeleteClick(position: Long) {

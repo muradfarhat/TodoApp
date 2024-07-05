@@ -44,6 +44,7 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
     fun onClickListeners() {
         backBtn.setOnClickListener {
             fragmentManager.popBackStack()
+            deleteAllFargments()
             navigateToMainPageFrag(UtilMethods.selectFragment())
         }
     }
@@ -64,9 +65,10 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
 //        fragmentTransaction.commit()
     }
 
-    override fun onClickCheckBox(isChecked: Boolean, position: Long) {
+    override fun onClickCheckBox(position: Long) {
         val task = DataClass.data().first { it.id == position }
         task.isDone = !task.isDone
+        DatabaseBuilder.database.taskDao().updateTaskStatus(task.id, task.isDone)
     }
 
     override fun onDeleteClick(position: Long) {
@@ -83,5 +85,10 @@ class SeeAllTasksFragment : Fragment(), OnCheckBoxClickListener {
         val fragment = CreateNewTaskFragment()
         fragment.setArguments(UtilMethods.bundleValue(false, task))
         this.navigateToMainPageFrag(fragment)
+    }
+
+    fun deleteAllFargments() {
+        for(i in 0 until fragmentManager.backStackEntryCount)
+            fragmentManager.popBackStack()
     }
 }

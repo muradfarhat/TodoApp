@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface TaskDao {
@@ -17,4 +18,10 @@ interface TaskDao {
 
     @Query("DELETE FROM tasks WHERE id = :id")
     fun delete(id: Long)
+
+    @Update
+    fun update(task: Task)
+
+    @Query("UPDATE tasks SET is_done = :isDone WHERE id = :taskId")
+    fun updateTaskStatus(taskId: Long, isDone: Boolean)
 }

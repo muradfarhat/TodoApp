@@ -35,7 +35,7 @@ class CustomAdapter(private val data: List<Task>, private val listener: OnCheckB
         holder.cardDate.text = "${data[position].date} ${data[position].month}"
         holder.isDone.isChecked = data[position].isDone
         holder.isDone.setOnClickListener {
-            listener.onClickCheckBox(holder.isDone.isChecked, data[position].id)
+            listener.onClickCheckBox(data[position].id)
         }
         holder.delete.setOnClickListener {
             listener.onDeleteClick(data[position].id)

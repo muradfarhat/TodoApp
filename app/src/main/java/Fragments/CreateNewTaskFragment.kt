@@ -120,7 +120,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
     private fun onClickListeners(view: View) {
         backBtn.setOnClickListener {
-            fragmentManager.popBackStack()
+            deleteAllFargments()
             navigateToMainPageFrag()
         }
 
@@ -163,6 +163,10 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
         deleteTaskBtn.setOnClickListener {
             onDeleteBtnClicked(task.id)
+        }
+
+        modifyTaskBtn.setOnClickListener {
+            onModifyBtnClicked(task)
         }
     }
 
@@ -319,8 +323,8 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             DataClass.addTask(newTask)
             DatabaseBuilder.database.taskDao().insertTask(newTask)
             Toast.makeText(context, "Task Created", Toast.LENGTH_SHORT).show()
-            for(i in 0 until fragmentManager.backStackEntryCount)
-                fragmentManager.popBackStack()
+
+            this.deleteAllFargments()
             navigateToMainPageFrag()
 
         } else {
@@ -343,6 +347,11 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         endTimeText.text = task.endTime
         setButtonState(task.priority)
         getAlert.isChecked = task.getAlert
+        this.onDateClick(DateItem(
+            day = task.day,
+            date = task.date,
+            month = task.month
+        ))
     }
 
     fun onDeleteBtnClicked(position: Long) {
@@ -352,7 +361,40 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             Toast.makeText(context, "Task Deleted!", Toast.LENGTH_SHORT).show()
         else Toast.makeText(context, "Delete failed!", Toast.LENGTH_SHORT).show()
 
-        fragmentManager.popBackStack()
+        this.deleteAllFargments()
         this.navigateToMainPageFrag()
+    }
+
+    fun onModifyBtnClicked(task: Task) {
+        name = taskName.text.toString()
+        description = taskDescription.text.toString()
+
+        if(isDateSelected && name.isNotEmpty() && description.isNotEmpty())
+        {
+            task.tittle = name
+            task.description = description
+            task.day = taskDate.day
+            task.date = taskDate.date
+            task.month = taskDate.month
+            task.startTime = startTimeText.text.toString()
+            task.endTime = endTimeText.text.toString()
+            task.priority = taskPriority
+            task.getAlert = getAlert.isChecked
+
+            DatabaseBuilder.database.taskDao().update(task)
+            if(UtilMethods.updateTask(task))
+                Toast.makeText(context, "Task Updated!", Toast.LENGTH_SHORT).show()
+            else Toast.makeText(context, "Updated Failed!", Toast.LENGTH_SHORT).show()
+
+            this.deleteAllFargments()
+            this.navigateToMainPageFrag()
+        } else {
+            Toast.makeText(context, "Fill All Date!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun deleteAllFargments() {
+        for(i in 0 until fragmentManager.backStackEntryCount)
+            fragmentManager.popBackStack()
     }
 }

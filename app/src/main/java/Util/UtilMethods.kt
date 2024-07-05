@@ -35,6 +35,12 @@ class UtilMethods {
             return DataClass.data().remove(task)
         }
 
+        fun updateTask(task: Task): Boolean {
+            var updatedTask = DataClass.data().first { it.id == task.id }
+            updatedTask = task
+            return true
+        }
+
         fun isListEmpty(): Boolean {
             return DataClass.data().isEmpty()
         }
