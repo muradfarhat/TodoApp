@@ -112,8 +112,6 @@ class MainPageFragment : Fragment(), OnCheckBoxClickListener {
         fragmentTransaction.replace(R.id.mainActivityLayout, fragment)
             .addToBackStack(null)
             .commit()
-//        fragmentTransaction.addToBackStack(null)
-//        fragmentTransaction.commit()
     }
 
     override fun onClickCheckBox(isChecked: Boolean, position: Long) {

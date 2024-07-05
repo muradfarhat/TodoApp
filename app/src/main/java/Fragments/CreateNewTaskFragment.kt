@@ -80,6 +80,9 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     // Bundle for pass data
     private lateinit var bundle: Bundle
     private var isCreate = true
+
+    // Task object
+    private lateinit var task: Task
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -108,10 +111,9 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         } else {
             createTask.visibility = View.INVISIBLE
             modifyAndDeleteLayout.visibility = View.VISIBLE
-//            bundle.getParcelable<Task>("task")?.let { this.modifyAndDeleteView(it) }
             arguments?.let {
-                var task: Task? = it.getParcelable("task")!!
-                this.modifyAndDeleteView(task!!)
+                task = it.getParcelable("task")!!
+                this.modifyAndDeleteView(task)
             }
         }
     }
@@ -158,11 +160,13 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         createTask.setOnClickListener {
             createTaskOnClick()
         }
+
+        deleteTaskBtn.setOnClickListener {
+            onDeleteBtnClicked(task.id)
+        }
     }
 
     private fun initView(view: View) {
-        //bundle = arguments
-        //isCreate = bundle.getBoolean("isCreate")
         arguments?.let {
             isCreate = it.getBoolean("isCreate")
         }
@@ -329,8 +333,6 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         fragmentTransaction.replace(R.id.mainActivityLayout, UtilMethods.selectFragment())
             .addToBackStack(null)
             .commit()
-//        fragmentTransaction.addToBackStack(null)
-//        fragmentTransaction.commit()
     }
 
     fun modifyAndDeleteView(task: Task) {
@@ -341,5 +343,16 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         endTimeText.text = task.endTime
         setButtonState(task.priority)
         getAlert.isChecked = task.getAlert
+    }
+
+    fun onDeleteBtnClicked(position: Long) {
+        val toDeleteTask = DataClass.data().first { it.id == position }
+        DatabaseBuilder.database.taskDao().delete(position)
+        if(UtilMethods.deleteTask(toDeleteTask))
+            Toast.makeText(context, "Task Deleted!", Toast.LENGTH_SHORT).show()
+        else Toast.makeText(context, "Delete failed!", Toast.LENGTH_SHORT).show()
+
+        fragmentManager.popBackStack()
+        this.navigateToMainPageFrag()
     }
 }

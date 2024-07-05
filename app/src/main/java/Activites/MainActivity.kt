@@ -1,11 +1,8 @@
 package Activites
 
 import DAOs.DatabaseBuilder
-import Fragments.MainPageFragment
 import Util.UtilMethods
-import android.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todoapp.R
 

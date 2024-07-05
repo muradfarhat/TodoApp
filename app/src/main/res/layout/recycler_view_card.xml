@@ -69,7 +69,8 @@
             android:background="@android:color/transparent"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/_10dp"
-            android:src="@drawable/bin"/>
+            android:src="@drawable/bin"
+            android:visibility="invisible"/>
 
         <CheckBox
             android:id="@+id/isDone"
