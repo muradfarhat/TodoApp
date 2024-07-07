@@ -87,7 +87,6 @@
                 android:layout_marginTop="@dimen/_30dp"
                 android:layout_below="@+id/calenderBtn"
                 android:orientation="horizontal"
-                tools:itemCount="7"
                 />
 
             <TextView

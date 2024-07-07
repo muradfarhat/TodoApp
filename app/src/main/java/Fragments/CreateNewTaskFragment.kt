@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.app.Fragment
 import android.app.TimePickerDialog
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,8 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     private var isDateSelected = false
     private lateinit var calendar_prev_button: ImageButton
     private lateinit var calendar_next_button: ImageButton
+    private lateinit var startDateValue: Calendar
+    private var selectedDate: String? = null
 
     // Name & description
     private lateinit var taskName: TextView
@@ -99,12 +102,12 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         updateDateText(view)
         setButtonState(SelectedPriority.high)
 
-        setIsCreateView()
+        setIsCreateView(view)
 
         return view
     }
 
-    private fun setIsCreateView() {
+    private fun setIsCreateView(view: View) {
         if(isCreate) {
             createTask.visibility = View.VISIBLE
             modifyAndDeleteLayout.visibility = View.INVISIBLE
@@ -113,7 +116,12 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             modifyAndDeleteLayout.visibility = View.VISIBLE
             arguments?.let {
                 task = it.getParcelable("task")!!
-                this.modifyAndDeleteView(task)
+                selectedDate?.let {
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val taskDate: Date = dateFormat.parse(it)!!
+                    startDateValue.time = taskDate
+                }
+                this.modifyAndDeleteView(task, view)
             }
         }
     }
@@ -179,6 +187,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
         backBtn = view.findViewById(R.id.backBtn)
         // Calender
         calendar = Calendar.getInstance()
+        startDateValue = calendar.clone() as Calendar
         recyclerView = view.findViewById(R.id.calendar_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         adapter = DateAdapter(dateList, this)
@@ -211,21 +220,48 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
     }
 
     fun updateDateList() {
+//        dateList.clear()
+//        val dateFormat = SimpleDateFormat("EEE", Locale.getDefault())
+//        val monthFormat = SimpleDateFormat("MMM", Locale.getDefault())
+//        val startOfWeek = startDateValue
+////            if(isCreate) calendar.clone() as Calendar
+////                          else calendar.setFirstDayOfWeek(task.date.toInt() - selectedTaskDateIndex) as Calendar
+//        startOfWeek.set(Calendar.DAY_OF_WEEK, startOfWeek.firstDayOfWeek)
+//
+//        for (i in 0..6) {
+//            val date = startOfWeek.time
+//            val day = dateFormat.format(date)
+//            val month = monthFormat.format(date)
+//            val dateItem = DateItem(day, startOfWeek.get(Calendar.DAY_OF_MONTH).toString(), month.toString())
+//            dateList.add(dateItem)
+//            startOfWeek.add(Calendar.DAY_OF_YEAR, 1)
+//        }
+//        adapter.notifyDataSetChanged()
         dateList.clear()
         val dateFormat = SimpleDateFormat("EEE", Locale.getDefault())
         val monthFormat = SimpleDateFormat("MMM", Locale.getDefault())
-        val startOfWeek = calendar.clone() as Calendar
-        startOfWeek.set(Calendar.DAY_OF_WEEK, startOfWeek.firstDayOfWeek)
+        val calendar = startDateValue.clone() as Calendar
 
-        for (i in 0..6) {
-            val date = startOfWeek.time
+        // Generate a list of all days in the year
+        for (i in 0 until 365) {
+            val date = calendar.time
             val day = dateFormat.format(date)
             val month = monthFormat.format(date)
-            val dateItem = DateItem(day, startOfWeek.get(Calendar.DAY_OF_MONTH).toString(), month.toString())
+            val dateItem = DateItem(day, calendar.get(Calendar.DAY_OF_MONTH).toString(), month)
             dateList.add(dateItem)
-            startOfWeek.add(Calendar.DAY_OF_YEAR, 1)
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
+
         adapter.notifyDataSetChanged()
+
+//        selectedDate?.let {
+//            val dateFormatt = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//            val taskDate: Date = dateFormatt.parse(it)!!
+//            val calendarr = Calendar.getInstance()
+//            calendarr.time = taskDate
+//            val dayOfYear = calendarr.get(Calendar.DAY_OF_YEAR)
+//            recyclerView.scrollToPosition(dayOfYear - 1)
+//        }
     }
 
     fun setButtonState(selectedButton: SelectedPriority) {
@@ -238,6 +274,7 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
         pButton.background = ContextCompat.getDrawable(context, R.drawable.selected_btn_style)
         pButton.setTextColor(Color.BLACK)
+        taskPriority = selectedButton
     }
 
      fun resetButtons() {
@@ -322,13 +359,13 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
             DataClass.addTask(newTask)
             DatabaseBuilder.database.taskDao().insertTask(newTask)
-            Toast.makeText(context, "Task Created", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.task_created), Toast.LENGTH_SHORT).show()
 
             this.deleteAllFargments()
             navigateToMainPageFrag()
 
         } else {
-            Toast.makeText(context, "Fill All Data!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.fill_all_date), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -339,8 +376,8 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             .commit()
     }
 
-    fun modifyAndDeleteView(task: Task) {
-        createPageTitle.text = "Mobile App Research"
+    fun modifyAndDeleteView(task: Task, view: View) {
+        createPageTitle.text = task.tittle
         taskName.text = task.tittle
         taskDescription.text = task.description
         startTimeText.text = task.startTime
@@ -352,14 +389,28 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
             date = task.date,
             month = task.month
         ))
+        val index = dateList.indexOfFirst { dateItem -> dateItem.day == task.day }
+        Log.e("Index Value === ", index.toString())
+        adapter.selectedPosition = index
+        recyclerView.scrollToPosition(index)
+        adapter.notifyItemChanged(index)
+        //startDateValue = calendar.setFirstDayOfWeek(task.date.toInt() - index) as Calendar
+//        calendar.firstDayOfWeek = Calendar.MONDAY
+//
+//        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+//        val diffToFirstDayOfWeek = dayOfWeek - calendar.firstDayOfWeek
+//        calendar.add(Calendar.DAY_OF_MONTH, -diffToFirstDayOfWeek)
+//
+//        startDateValue = calendar
+        updateDateList()
     }
 
     fun onDeleteBtnClicked(position: Long) {
         val toDeleteTask = DataClass.data().first { it.id == position }
         DatabaseBuilder.database.taskDao().delete(position)
         if(UtilMethods.deleteTask(toDeleteTask))
-            Toast.makeText(context, "Task Deleted!", Toast.LENGTH_SHORT).show()
-        else Toast.makeText(context, "Delete failed!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.task_deleted), Toast.LENGTH_SHORT).show()
+        else Toast.makeText(context, getString(R.string.delete_failed), Toast.LENGTH_SHORT).show()
 
         this.deleteAllFargments()
         this.navigateToMainPageFrag()
@@ -383,13 +434,13 @@ class CreateNewTaskFragment : Fragment(), OnDateClickListener {
 
             DatabaseBuilder.database.taskDao().update(task)
             if(UtilMethods.updateTask(task))
-                Toast.makeText(context, "Task Updated!", Toast.LENGTH_SHORT).show()
-            else Toast.makeText(context, "Updated Failed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.task_updated), Toast.LENGTH_SHORT).show()
+            else Toast.makeText(context, getString(R.string.updated_failed), Toast.LENGTH_SHORT).show()
 
             this.deleteAllFargments()
             this.navigateToMainPageFrag()
         } else {
-            Toast.makeText(context, "Fill All Date!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.fill_all_date), Toast.LENGTH_SHORT).show()
         }
     }
 

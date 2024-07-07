@@ -13,7 +13,7 @@ import com.example.todoapp.R
 class DateAdapter(private val dateList: List<DateItem>, private val listener: OnDateClickListener) :
     RecyclerView.Adapter<DateAdapter.DateViewHolder>() {
 
-    private var selectedPosition = RecyclerView.NO_POSITION
+    public var selectedPosition = RecyclerView.NO_POSITION
     inner class DateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvDay: TextView = itemView.findViewById(R.id.tvDay)
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
@@ -33,14 +33,19 @@ class DateAdapter(private val dateList: List<DateItem>, private val listener: On
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_calender_day, parent, false)
-        val screenWidth = parent.context.resources.displayMetrics.widthPixels
-        val itemWidth = screenWidth / 7
-        view.layoutParams = ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
+//        val screenWidth = parent.context.resources.displayMetrics.widthPixels
+//        val itemWidth = screenWidth / 7
+//        view.layoutParams = ViewGroup.LayoutParams(itemWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
         return DateViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: DateViewHolder, position: Int) {
         val dateItem = dateList[position]
+
+        this.selectItemView(holder, position, dateItem)
+    }
+
+    fun selectItemView(holder: DateViewHolder, position: Int, dateItem: DateItem) {
         holder.tvDay.text = dateItem.day
         holder.tvDate.text = dateItem.date
 

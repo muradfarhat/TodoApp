@@ -35,4 +35,10 @@
     <string name="ffefe9">#FFEFE9</string>
     <string name="edit_task">Edit Task</string>
     <string name="delete_task">Delete Task</string>
+    <string name="task_deleted">Task Deleted!</string>
+    <string name="delete_failed">Delete failed!</string>
+    <string name="task_updated">Task Updated!</string>
+    <string name="updated_failed">Updated Failed!</string>
+    <string name="fill_all_date">Fill All Data!</string>
+    <string name="task_created">Task Created</string>
 </resources>
